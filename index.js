@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const SERVER_PORT = 3000;
+const SERVER_PORT = 3030;
 
 const handleRequest = (req,res) => {
 	res.send("Hello, world!");
