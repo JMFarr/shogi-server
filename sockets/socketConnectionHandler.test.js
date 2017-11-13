@@ -1,4 +1,4 @@
-const socketConnectionHandler = require('./socketConnectionHandler').socketConnectionHandler;
+const socketConnectionHandler = require('./socketConnectionHandler');
 
 const makeSocketObject = () => {
 	const eventsHandled = [];
@@ -39,3 +39,5 @@ test('has a disconnect event', () => {
 	)
 	.toBeGreaterThan(-1);
 });
+
+
