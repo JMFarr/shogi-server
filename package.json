@@ -2,10 +2,10 @@
   "name": "shogi-server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "author": "Jacob Farr",
   "license": "ISC",
