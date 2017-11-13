@@ -1,32 +1,43 @@
 const socketConnectionHandler = require('./socketConnectionHandler').socketConnectionHandler;
 
-test('has a connection event', () => {
+const makeSocketObject = () => {
 	const eventsHandled = [];
-	const testIo = {		
+	let childSocketObject = null;
+
+	return {
+		getEventsHandled: () => eventsHandled,
+		getChildSocketObject: () => childSocketObject,
 		on: (eventName, callback) => {
-			eventsHandled.push(eventName);			
-		} 
-	}
-
-	socketConnectionHandler(testIo);
-
-	expect(eventsHandled.indexOf("connection")).toBeGreaterThan(-1);
-});
-
-test('has a disconnect event', () => {
-	const socketEventsHandled = [];
-	const testSocket = {
-		on: (eventName, callback) => {
-			socketEventsHandled.push(eventName);
+			eventsHandled.push(eventName);
+			if(arguments.length > 1) {
+				childSocketObject = makeSocketObject();
+				callback(childSocketObject);
+			}
 		}
 	}
-	const testIo = {		
-		on: (eventName, callback) => {			
-			callback(testSocket);
-		} 
-	}
+}
 
-	socketConnectionHandler(testIo);
 
-	expect(socketEventsHandled.indexOf("disconnect")).toBeGreaterThan(-1);
-})
+test('has a connection event', () => {
+	
+	const topSocketObject = makeSocketObject();	
+	
+	socketConnectionHandler(topSocketObject);
+
+	expect(topSocketObject.getEventsHandled().indexOf("connection")).toBeGreaterThan(-1);
+});
+
+
+test('has a disconnect event', () => {
+	const topSocketObject = makeSocketObject();
+
+	socketConnectionHandler(topSocketObject);
+
+	expect(
+		topSocketObject
+		.getChildSocketObject()
+		.getEventsHandled()
+		.indexOf("disconnect")
+	)
+	.toBeGreaterThan(-1);
+});
