@@ -8,7 +8,10 @@ const handleRequest = (req,res) => {
 	res.send("<h1>Hello, world!</h1>");
 }
 
-io.on('connection', (socket) => console.log('a user connected'));
+io.on('connection', (socket) => {
+	console.log('a user connected')
+	socket.on('disconnect', () => console.log('user disconnected'));
+});
 
 app.get('/', handleRequest);
 
