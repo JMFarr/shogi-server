@@ -2,7 +2,7 @@ const socketConnectionHandler = require('./socketConnectionHandler').socketConne
 
 const makeSocketObject = () => {
 	const eventsHandled = [];
-	let childSocketObject = null;
+	let childSocketObject;
 
 	return {
 		getEventsHandled: () => eventsHandled,
@@ -14,9 +14,8 @@ const makeSocketObject = () => {
 				callback(childSocketObject);
 			}
 		}
-	}
+	};
 }
-
 
 test('has a connection event', () => {
 	
@@ -26,7 +25,6 @@ test('has a connection event', () => {
 
 	expect(topSocketObject.getEventsHandled().indexOf("connection")).toBeGreaterThan(-1);
 });
-
 
 test('has a disconnect event', () => {
 	const topSocketObject = makeSocketObject();
